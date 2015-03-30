@@ -22,6 +22,8 @@ es_version: 1.3
 # Address of elasticsearch used by fluentd
 es_fqdn: localhost
 es_port: 9200
+# Manage service
+es_manage_service: True
 # Curator tool
 install_curator: True
 curator_max_keep_days: 90

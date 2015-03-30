@@ -27,6 +27,7 @@
 
 # ensure service started
 - service: name=elasticsearch state=started
+  when: es_manage_service
 
 # install plugins
 - include: plugins.yml
