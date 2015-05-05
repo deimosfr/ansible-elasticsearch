@@ -1,21 +1,26 @@
 ---
-# Install elasticsearch
 
 # install apt key
-- apt_key: url=http://packages.elasticsearch.org/GPG-KEY-elasticsearch state=present
+- name: adding elasticsearch gpg key
+  apt_key: url=http://packages.elasticsearch.org/GPG-KEY-elasticsearch state=present
+  tags: [elasticsearch]
 
 # set dedicated repository
-- apt_repository: repo='deb http://packages.elasticsearch.org/elasticsearch/{{es_version}}/debian stable main' state=present
+- name: add elasticsearch repository 
+  apt_repository: repo='deb http://packages.elasticsearch.org/elasticsearch/{{es_version}}/debian stable main' state=present
+  tags: [elasticsearch]
+
+# install java if requested
+- name: install java version from elasticsearch role
+  apt: name={{ es_java_version }} state=present update_cache=yes cache_valid_time=3600
+  when: es_install_java
+  tags: [elasticsearch]
 
 # install elasticsearch with dependancies
 - name: install elasticsearch
-  apt: name={{ item }} state=latest force=yes
-  tags: elasticsearch
-  with_items:
-    - elasticsearch
-    - openjdk-7-jre-headless
-    - openntpd
+  apt: name=elasticsearch state=present update_cache=yes cache_valid_time=3600
   notify: init elasticsearch
+  tags: [elasticsearch]
 
 # set limits.conf
 - name: limits.conf tuning
@@ -24,10 +29,13 @@
   with_items:
     - 'elasticsearch soft nofile 32000'
     - 'elasticsearch hard nofile 32000'
+  tags: [elasticsearch]
 
 # ensure service started
 - service: name=elasticsearch state=started
   when: es_manage_service
+  tags: [elasticsearch]
 
 # install plugins
 - include: plugins.yml
+  tags: [elasticsearch, elasticsearch-plugins]
