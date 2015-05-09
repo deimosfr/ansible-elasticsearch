@@ -17,22 +17,31 @@ them are as follows.
 
 ```
 # Elasticsearch version from debian repository
-# elasticsearch.yml
-es_version: 1.3
-# Address of elasticsearch used by fluentd
+es_version: 1.5
+es_install_java: True
+es_java_version: 'openjdk-7-jdk'
 es_fqdn: localhost
 es_port: 9200
+
+# Force user ids
+es_uid:
+es_gid:
+
 # Manage service
 es_manage_service: True
+
 # Curator tool
-install_curator: True
+install_curator: False
 curator_max_keep_days: 90
+
 # Head plugin
-install_head: True
+install_head: False
+
 # ElasticHQ plugin
 install_eshq: False
+
 # Marvel plugin
-install_marvel: True
+install_marvel: False
 ```
 
 Examples
