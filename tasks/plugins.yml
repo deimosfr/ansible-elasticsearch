@@ -2,17 +2,21 @@
 
 # Head plugin
 - include: plugins/head.yml
-  when: install_head is defined and install_head
+  when: es_install_head is defined and es_install_head
 
 # Marvel plugin
 - include: plugins/marvel.yml
-  when: install_marvel is defined and install_marvel
+  when: es_install_marvel is defined and es_install_marvel
+
+# Kopf plugin
+- include: plugins/kopf.yml
+  when: es_install_kopf is defined and es_install_kopf
 
 # ElasticHQ plugin
 - include: plugins/elastichq.yml
-  when: install_eshq is defined and install_eshq
+  when: es_install_eshq is defined and es_install_eshq
 
 # Curator tool
 - include: plugins/curator.yml
-  when: install_curator is defined and install_curator
+  when: es_install_curator is defined and es_install_curator
 

@@ -2,6 +2,7 @@
 es_version: 1.5
 es_install_java: True
 es_java_version: 'openjdk-7-jdk'
+es_heap_size: '2g'
 es_fqdn: localhost
 es_port: 9200
 
@@ -13,14 +14,17 @@ es_gid:
 es_manage_service: True
 
 # Curator tool
-install_curator: False
-curator_max_keep_days: 90
+es_install_curator: False
+es_curator_max_keep_days: 90
 
 # Head plugin
-install_head: False
+es_install_head: False
 
 # ElasticHQ plugin
-install_eshq: False
+es_install_eshq: False
 
 # Marvel plugin
-install_marvel: False
+es_install_marvel: False
+
+# kopf plugin
+es_install_kopf: False

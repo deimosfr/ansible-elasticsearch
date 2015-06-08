@@ -18,6 +18,7 @@ them are as follows.
 ```
 # Elasticsearch version from debian repository
 es_version: 1.5
+es_heap_size: '2g'
 es_install_java: True
 es_java_version: 'openjdk-7-jdk'
 es_fqdn: localhost
