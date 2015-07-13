@@ -52,4 +52,5 @@
 
 # install plugins
 - include: plugins.yml
+  when: es_install_plugins
   tags: [elasticsearch, elasticsearch-plugins]

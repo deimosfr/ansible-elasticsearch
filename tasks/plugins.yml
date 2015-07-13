@@ -1,22 +1,16 @@
 ---
 
-# Head plugin
-- include: plugins/head.yml
-  when: es_install_head is defined and es_install_head
+# Install plugins
+- name: get installed Elasticsearch plugins list
+  command: "bin/plugin -l chdir=/usr/share/elasticsearch"
+  changed_when: false
+  register: es_installed_plugins
 
-# Marvel plugin
-- include: plugins/marvel.yml
-  when: es_install_marvel is defined and es_install_marvel
-
-# Kopf plugin
-- include: plugins/kopf.yml
-  when: es_install_kopf is defined and es_install_kopf
-
-# ElasticHQ plugin
-- include: plugins/elastichq.yml
-  when: es_install_eshq is defined and es_install_eshq
+- name: install Elasticsearch plugins
+  command: "bin/plugin -install {{item.path}} chdir=/usr/share/elasticsearch"
+  with_items: "{{es_install_plugins}}"
+  when: "'- {{item.name}}' not in es_installed_plugins.stdout"
 
 # Curator tool
-- include: plugins/curator.yml
+- include: curator.yml
   when: es_install_curator is defined and es_install_curator
-
