@@ -4,6 +4,7 @@ es_install_java: True
 es_java_version: 'openjdk-7-jdk'
 es_fqdn: localhost
 es_port: 9200
+es_cfg_dir: "/etc/elasticsearch"
 
 # Force user ids
 es_uid:
@@ -24,3 +25,10 @@ install_eshq: False
 
 # Marvel plugin
 install_marvel: False
+
+# elasticsearch.yml
+es_http_port: 9200
+es_cluster_name: elasticsearch
+es_node_local: false
+es_number_of_shards: 5
+es_number_of_replicas: 1

@@ -32,6 +32,12 @@
   when: es_uid
   tags: [elasticsearch]
 
+# set elasticsearch.yml config
+  - name: drop the elasticsearch config
+    template: >
+      src=elasticsearch.yml.j2 dest={{ es_cfg_dir }}/elasticsearch.yml
+      mode=0744
+
 # set limits.conf
 - name: limits.conf tuning
   lineinfile: dest=/etc/security/limits.conf line="{{ item }}" 
