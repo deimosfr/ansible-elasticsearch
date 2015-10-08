@@ -34,6 +34,9 @@ node.local: {{ es_node_local }}
 
 #################################### Node #####################################
 
+script.disable_dynamic: {{ es_dynamic_scripting_disabled }}
+
+
 # Node names are generated dynamically on startup, so you're relieved
 # from configuring them manually. You can tie this node to a specific name:
 #
