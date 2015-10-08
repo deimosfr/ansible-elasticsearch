@@ -32,3 +32,5 @@ es_cluster_name: elasticsearch
 es_node_local: false
 es_number_of_shards: 5
 es_number_of_replicas: 1
+es_dynamic_scripting_disabled: true
+
