@@ -1,5 +1,5 @@
 Ansible ElasticSearch playbook
-=====
+======
 
 This role installs and configures ElasticSearch on a server.
 
