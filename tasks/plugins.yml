@@ -16,3 +16,6 @@
 - include: plugins/curator.yml
   when: install_curator is defined and install_curator
 
+# Search Guard plugin
+- include: plugins/searchguard.yml
+  when: install_searchguard is defined and install_searchguard
