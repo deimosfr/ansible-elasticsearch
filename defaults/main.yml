@@ -1,7 +1,8 @@
 # Elasticsearch version from debian repository
-es_version: 1.5
+es_version: 1.6
 es_install_java: True
 es_java_version: 'openjdk-7-jdk'
+es_heap_size: '2g'
 es_fqdn: localhost
 es_port: 9200
 es_cfg_dir: "/etc/elasticsearch"
@@ -13,12 +14,16 @@ es_gid:
 # Manage service
 es_manage_service: True
 
-# Curator tool
-install_curator: False
-curator_max_keep_days: 90
-
-# Head plugin
-install_head: False
+# Install plugins
+es_install_plugins:
+  - name: head
+    path: mobz/elasticsearch-head
+  - name: kopf
+    path: lmenezes/elasticsearch-kopf
+  - name: HQ
+    path: royrusso/elasticsearch-HQ
+  - name: marvel
+    path: elasticsearch/marvel/latest
 
 # ElasticHQ plugin
 install_eshq: False
@@ -34,3 +39,6 @@ es_number_of_shards: 5
 es_number_of_replicas: 1
 es_dynamic_scripting_disabled: true
 
+# Curator tool
+es_install_curator: False
+es_curator_max_keep_days: 90
