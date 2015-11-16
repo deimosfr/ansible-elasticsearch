@@ -35,6 +35,8 @@
 # set elasticsearch.yml config
 - name: drop the elasticsearch config
   template: src=elasticsearch.yml.j2 dest={{ es_cfg_dir }}/elasticsearch.yml mode=0744
+  notify: restart elasticsearch
+  tags: [elasticsearch]
 
 # set limits.conf
 - name: limits.conf tuning
