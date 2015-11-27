@@ -215,10 +215,8 @@ index.number_of_replicas: {{ es_number_of_replicas }}
 
 # Set both 'bind_host' and 'publish_host':
 #
-network.host: 127.0.0.1
-
-# ????????
-http.host: 127.0.0.1
+network.host: {{ es_network_host }}
+http.host: {{ es_http_host }}
 
 # Set a custom port for the node to node communication (9300 by default):
 #

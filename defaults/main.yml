@@ -33,4 +33,5 @@ es_node_local: false
 es_number_of_shards: 5
 es_number_of_replicas: 1
 es_dynamic_scripting_disabled: true
-
+es_network_host: 127.0.0.1
+es_http_host: 127.0.0.1
