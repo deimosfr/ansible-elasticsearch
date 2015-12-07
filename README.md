@@ -22,6 +22,7 @@ es_install_java: True
 es_java_version: 'openjdk-7-jdk'
 es_fqdn: localhost
 es_port: 9200
+es_path_data: '/path/to/data/'
 
 # Force user ids
 es_uid:
