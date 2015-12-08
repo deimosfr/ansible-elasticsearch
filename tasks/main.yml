@@ -38,6 +38,11 @@
   notify: restart elasticsearch
   tags: [elasticsearch]
 
+# create data directory if it necessary
+- name: add data directory
+  file: path={{es_path_data}} state=directory owner=elasticsearch group=elasticsearch
+  tags: [elasticsearch]
+
 # set limits.conf
 - name: limits.conf tuning
   lineinfile: dest=/etc/security/limits.conf line="{{ item }}" 
