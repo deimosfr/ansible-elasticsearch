@@ -1,0 +1,25 @@
+---
+
+- name: get installed ES plugins list
+  shell: /usr/share/elasticsearch/bin/plugin -l
+  tags: essearchguard
+  register: searchguard_plugin
+  changed_when: false
+
+# There is no clean way to "lookup" JSON body file
+# https://github.com/ansible/ansible-modules-core/issues/265
+- name: store search-guard base ACL
+  uri:
+    url: "http://{{es_fqdn}}:{{es_port}}/searchguard/ac/ac"
+    method: "PUT"
+    status_code: "200,201"
+    body: "{\"acl\":[{\"__Comment__\":\"By default no filters are executed and no filters a by-passed. In such a case an exception is thrown and access will be denied.\",\"filters_bypass\":[],\"filters_execute\":[]},{\"__Comment__\":\"For role *admin* all filters are bypassed (so none will be executed). This means unrestricted access.\",\"roles\":[\"admin\"],\"filters_bypass\":[\"*\"],\"filters_execute\":[]}]}"
+  tags: essearchguard
+  register: searchguard_acl
+  changed_when: searchguard_acl.status == 201
+  when: '"- search-guard" not in searchguard_plugin.stdout'
+
+- name: install search-guard plugin
+  shell: /usr/share/elasticsearch/bin/plugin -install com.floragunn/search-guard/0.5
+  tags: essearchguard
+  when: '"- search-guard" not in searchguard_plugin.stdout'

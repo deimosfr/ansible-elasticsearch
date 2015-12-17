@@ -22,10 +22,6 @@
   notify: init elasticsearch
   tags: [elasticsearch]
 
-- name: set heap size
-  lineinfile: dest=/etc/default/elasticsearch regexp='^ES_HEAP_SIZE' line="ES_HEAP_SIZE={{ es_heap_size }}" state=present
-  tags: [elasticsearch]
-
 - name: update group gid
   group: name=elasticsearch gid={{ es_gid }} state=present
   when: es_gid
@@ -34,6 +30,17 @@
 - name: update user uid and gid
   user: name=elasticsearch uid={{ es_uid }} group=elasticsearch state=present
   when: es_uid
+  tags: [elasticsearch]
+
+# set elasticsearch.yml config
+- name: drop the elasticsearch config
+  template: src=elasticsearch.yml.j2 dest={{ es_cfg_dir }}/elasticsearch.yml mode=0744
+  notify: restart elasticsearch
+  tags: [elasticsearch]
+
+# create data directory if it necessary
+- name: add data directory
+  file: path={{es_path_data}} state=directory owner=elasticsearch group=elasticsearch
   tags: [elasticsearch]
 
 # set limits.conf
@@ -52,5 +59,4 @@
 
 # install plugins
 - include: plugins.yml
-  when: es_install_plugins
   tags: [elasticsearch, elasticsearch-plugins]
