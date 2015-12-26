@@ -22,8 +22,9 @@
   notify: init elasticsearch
   tags: [elasticsearch]
 
-- name: set heap size
-  lineinfile: dest=/etc/default/elasticsearch regexp='^ES_HEAP_SIZE' line="ES_HEAP_SIZE={{ es_heap_size }}" state=present
+- name: set default start options
+  template: src=default.j2 dest=/etc/default/elasticsearch mode=0644 owner=root group=root
+  notify: restart elasticsearch
   tags: [elasticsearch]
 
 - name: update group gid
@@ -36,6 +37,11 @@
   when: es_uid
   tags: [elasticsearch]
 
+- name: set elasticsearch configuration
+  template: src=elasticsearch.yml.j2 dest=/etc/elasticsearch/elasticsearch.yml mode=0644 owner=root group=root
+  notify: restart elasticsearch
+  tags: [elasticsearch]
+
 # set limits.conf
 - name: limits.conf tuning
   lineinfile: dest=/etc/security/limits.conf line="{{ item }}" 
@@ -43,6 +49,7 @@
   with_items:
     - 'elasticsearch soft nofile 32000'
     - 'elasticsearch hard nofile 32000'
+  notify: restart elasticsearch
   tags: [elasticsearch]
 
 # ensure service started
