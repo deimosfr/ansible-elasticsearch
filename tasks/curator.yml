@@ -7,4 +7,4 @@
 
 - name: install curator crontab
   cron: cron_file=curator minute=30 hour=23 job="curator --host {{ es_fqdn }} -d {{ max_keep_days | default(360) }}" user="root" name="curator"
-
+  when: es_curator_max_keep_days is defined
