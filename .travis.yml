@@ -1,0 +1,36 @@
+# .travis.yml
+---
+
+language: python
+sudo: required
+env:
+  - >
+    DISTRIBUTION=debian
+    DIST_VERSION=jessie
+    JAVA_PACKAGE=oracle-java8-installer
+
+services:
+  - docker
+
+before_install:
+  - sudo apt-get update
+  # Latest Ansible install
+  - sudo apt-add-repository -y ppa:ansible/ansible
+  - sudo apt-get update
+  - sudo pip install ansible docker-py==1.5.0
+  # Pull docker image or build it
+  - sudo docker pull ${DISTRIBUTION}:${DIST_VERSION}
+  - sudo ansible-galaxy install smola.java
+  - sudo ln -s ${PWD} /etc/ansible/roles/deimosfr.elasticsearch
+  
+script:
+  # Test 1
+  - >
+    sudo ansible-playbook -i tests/hosts tests/site.yml -e target=node1 -e java_packages=${JAVA_PACKAGE}
+    -e image_name=${DISTRIBUTION}:${DIST_VERSION}
+    # Idempotence test
+  - >
+    sudo ansible-playbook -i tests/hosts tests/site.yml -e target=node1 -e java_packages=${JAVA_PACKAGE}
+    -e image_name=${DISTRIBUTION}:${DIST_VERSION} | grep -q 'changed=0.*failed=0'
+    && (echo 'Idempotence test: pass' && exit 0)
+    || (echo 'Idempotence test: fail' && exit 1)

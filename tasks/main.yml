@@ -1,62 +1,18 @@
 ---
 
-# install apt key
-- name: adding elasticsearch gpg key
-  apt_key: url=http://packages.elasticsearch.org/GPG-KEY-elasticsearch state=present
-  tags: [elasticsearch]
+- include: prequesites.yml
+  tags: [elasticsearch, elasticsearch-prequesites]
 
-# set dedicated repository
-- name: add elasticsearch repository 
-  apt_repository: repo='deb http://packages.elasticsearch.org/elasticsearch/{{es_version}}/debian stable main' state=present
-  tags: [elasticsearch]
+- include: install.yml
+  tags: [elasticsearch, elasticsearch-install]
 
-# install java if requested
-- name: install java version from elasticsearch role
-  apt: name={{ es_java_version }} state=present update_cache=yes cache_valid_time=3600
-  when: es_install_java
-  tags: [elasticsearch]
+- include: configuration.yml
+  tags: [elasticsearch, elasticsearch-configuration]
 
-# install elasticsearch with dependancies
-- name: install elasticsearch
-  apt: name=elasticsearch state=present update_cache=yes cache_valid_time=3600
-  notify: init elasticsearch
-  tags: [elasticsearch]
-
-- name: set default start options
-  template: src=default.j2 dest=/etc/default/elasticsearch mode=0644 owner=root group=root
-  notify: restart elasticsearch
-  tags: [elasticsearch]
-
-- name: update group gid
-  group: name=elasticsearch gid={{ es_gid }} state=present
-  when: es_gid
-  tags: [elasticsearch]
-
-- name: update user uid and gid
-  user: name=elasticsearch uid={{ es_uid }} group=elasticsearch state=present
-  when: es_uid
-  tags: [elasticsearch]
-
-- name: set elasticsearch configuration
-  template: src=elasticsearch.yml.j2 dest=/etc/elasticsearch/elasticsearch.yml mode=0644 owner=root group=root
-  notify: restart elasticsearch
-  tags: [elasticsearch]
-
-# set limits.conf
-- name: limits.conf tuning
-  lineinfile: dest=/etc/security/limits.conf line="{{ item }}" 
-  with_items:
-    - 'elasticsearch soft nofile 32000'
-    - 'elasticsearch hard nofile 32000'
-  notify: restart elasticsearch
-  tags: [elasticsearch]
-
-# ensure service started
-- service: name=elasticsearch state=started
-  when: es_manage_service
-  tags: [elasticsearch]
-
-# install plugins
 - include: plugins.yml
   when: es_install_plugins
   tags: [elasticsearch, elasticsearch-plugins]
+
+- include: curator.yml
+  when: es_install_curator
+  tags: [elasticsearch, elasticsearch-curator]

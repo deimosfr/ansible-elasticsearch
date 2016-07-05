@@ -1,7 +1,13 @@
-# Elasticsearch version from debian repository
-es_version: 1.7
+# ES v2
+es_version: "2.x"
+#es_version: "1.7"
+es_apt_gpg_url: "https://packages.elastic.co/GPG-KEY-elasticsearch"
+es_apt_repo: "deb https://packages.elasticsearch.org/elasticsearch/{{es_version}}/debian stable main"
+
+# Java
 es_install_java: True
-es_java_version: 'openjdk-7-jdk'
+es_java_version: "openjdk-8-jdk"
+
 es_fqdn: localhost
 es_port: 9200
 
@@ -12,22 +18,19 @@ es_gid:
 # Manage service
 es_manage_service: True
 es_start_options:
-   ES_HEAP_SIZE: '2g'
+   ES_HEAP_SIZE: "2g"
 
 # Configuration file
 es_config_file:
 
 # Install plugins
 es_install_plugins:
-  - name: head
-    path: mobz/elasticsearch-head
   - name: kopf
     path: lmenezes/elasticsearch-kopf
-  - name: HQ
-    path: royrusso/elasticsearch-HQ
-  - name: marvel
-    path: elasticsearch/marvel/latest
+  #- name: head
+  #  path: mobz/elasticsearch-head
+  #- name: HQ
+  #  path: royrusso/elasticsearch-HQ
 
 # Curator tool
 es_install_curator: False
-#es_curator_max_keep_days: 90

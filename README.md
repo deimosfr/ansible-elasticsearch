@@ -1,4 +1,4 @@
-Ansible ElasticSearch playbook
+Ansible ElasticSearch playbook [![Build Status](https://travis-ci.org/deimosfr/ansible-elasticsearch.svg)](https://travis-ci.org/deimosfr/ansible-elasticsearch)
 =====
 
 This role installs and configures ElasticSearch on a server.
@@ -15,11 +15,17 @@ Role Variables
 The variables that can be passed to this role and a brief description about
 them are as follows.
 
-```
-# Elasticsearch version from debian repository
-es_version: 1.7
+```yaml
+# ES v2
+es_version: "2.x"
+#es_version: "1.7"
+es_apt_gpg_url: "https://packages.elastic.co/GPG-KEY-elasticsearch"
+es_apt_repo: "deb https://packages.elasticsearch.org/elasticsearch/{{es_version}}/debian stable main"
+
+# Java
 es_install_java: True
-es_java_version: 'openjdk-7-jdk'
+es_java_version: "openjdk-8-jdk"
+
 es_fqdn: localhost
 es_port: 9200
 
@@ -30,11 +36,10 @@ es_gid:
 # Manage service
 es_manage_service: True
 es_start_options:
-   ES_HEAP_SIZE: '2g'
+   ES_HEAP_SIZE: "2g"
 
 # Configuration file
 es_config_file:
-  indices.store.throttle.max_bytes_per_sec: '300mb'
 
 # Install plugins
 es_install_plugins:
@@ -49,19 +54,18 @@ es_install_plugins:
 
 # Curator tool
 es_install_curator: False
-#es_curator_max_keep_days: 90
 ```
 
 Examples
 ========
 
-```
+```yaml
 # Roles
 - name: log server
   hosts: logs
   user: root
   roles:
-    - elasticsearch
+    - deimosfr.elasticsearch
   vars_files:
     - "host_vars/elasticsearch.yml"
 
@@ -81,5 +85,3 @@ Author Information
 ------------------
 
 Pierre Mavro / deimosfr
-
-
