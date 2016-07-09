@@ -1,4 +1,4 @@
-Ansible ElasticSearch playbook [![Build Status](https://travis-ci.org/deimosfr/ansible-elasticsearch.svg)](https://travis-ci.org/deimosfr/ansible-elasticsearch)
+Ansible ElasticSearch playbook [![Build Status](https://travis-ci.org/deimosfr/ansible-elasticsearch.svg?branch=master)](https://travis-ci.org/deimosfr/ansible-elasticsearch)
 =====
 
 This role installs and configures ElasticSearch on a server.
